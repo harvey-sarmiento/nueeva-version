@@ -210,4 +210,125 @@
                 {showPasswordError && <p className="text-red-400 text-sm text-center mb-3 animate-pulse">Contraseña incorrecta</p>}
                 <div className="flex gap-3">
                   <button onClick={() => { setShowAdmin(false); setPasswordInput(''); }} className="flex-1 py-3 bg-gray-800 rounded-xl hover:bg-gray-700 transition">Cancelar</button>
-                  <button onClick={handlePasswordSubmit} className="flex-1 py-3 btn-gold rounded-xl font-bold">
+                  <button onClick={handlePasswordSubmit} className="flex-1 py-3 btn-gold rounded-xl font-bold">Acceder</button>
+                </div>
+              </div>
+            </div>
+          )}
+          <div className="container mx-auto px-6 py-12 max-w-5xl relative z-10">
+            <div className="text-center mb-12">
+              <div className="inline-block bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 text-black px-10 py-4 rounded-full font-black text-lg mb-6 shadow-xl animate-pulse-glow">
+                EVENTO ONLINE EXCLUSIVO
+              </div>
+              <h1 className="text-6xl md:text-7xl font-black gold-text mb-4 leading-tight">
+                Harvey Sarmiento
+              </h1>
+              <p className="text-2xl font-medium text-amber-200">Resultados Garantizados desde tus primeros 10 días</p>
+            </div>
+            <div className="glass rounded-3xl p-8 mb-10 shadow-2xl border border-amber-600/40">
+              <div className="flex justify-between items-center mb-4">
+                <span className="flex items-center gap-3 text-lg font-bold">
+                  <Icon name="trendingUp" className="text-amber-400 animate-pulse" /> Stickers Vendidos
+                </span>
+                <span className="text-3xl font-black gold-text">{progress}%</span>
+              </div>
+              <div className="w-full bg-gray-800 rounded-full h-10 overflow-hidden shadow-inner border border-amber-600/30">
+                <div className="h-full progress-fill rounded-full flex items-center justify-end pr-4" style={{ width: ${progress}% }}>
+                  <Icon name="zap" size={6} className="text-black drop-shadow-lg" />
+                </div>
+              </div>
+              <p className="text-center mt-4 text-amber-400 font-bold animate-pulse text-lg">¡Últimas unidades! No pierdas tu chance</p>
+            </div>
+            <div className="glass rounded-3xl p-10 mb-12 shadow-2xl border-2 border-amber-500/60 bg-gradient-to-br from-amber-900/20 to-yellow-900/20">
+              <div className="text-center">
+                <div className="inline-block p-6 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-full mb-6 animate-float shadow-2xl">
+                  <Icon name="crown" size={16} className="text-black" />
+                </div>
+                <h2 className="text-4xl md:text-5xl font-black gold-text mb-6">GRAN PREMIO</h2>
+                <div className="grid md:grid-cols-2 gap-6 text-left bg-black/40 rounded-2xl p-8 border border-amber-600/40">
+                  <div className="flex items-center gap-4">
+                    <Icon name="users" size={10} className="text-amber-400" />
+                    <div>
+                      <p className="text-xl font-bold text-white">2 Meses de Acompañamiento</p>
+                      <p className="text-amber-300">Personalizado</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <Icon name="dollarSign" size={10} className="text-amber-400" />
+                    <div>
+                      <p className="text-3xl font-black gold-text">$300,000 COP</p>
+                      <p className="text-amber-300">en Efectivo</p>
+                    </div>
+                  </div>
+                </div>
+                <p className="mt-6 text-lg font-bold text-amber-300">¡Por solo $12.000 puedes GANAR!</p>
+              </div>
+            </div>
+            <div className="glass rounded-3xl p-10 mb-12 shadow-2xl border border-amber-600/40">
+              <div className="text-center mb-8">
+                <p className="text-lg text-gray-400 mb-2">Adquiere tus</p>
+                <p className="text-7xl font-black gold-text mb-3">10 Stickers</p>
+                <p className="text-5xl font-bold text-white">$12,000 COP</p>
+              </div>
+              <button onClick={handlePurchase} className="w-full py-6 btn-gold text-2xl font-black rounded-2xl shadow-xl transform hover:scale-105 transition-all group">
+                <Gift className="inline-block w-10 h-10 mr-3 group-hover:animate-bounce" /> COMPRAR AHORA
+              </button>
+              <div className="mt-8 bg-black/40 rounded-2xl p-6 border border-amber-600/40">
+                <h3 className="text-center font-bold gold-text mb-4 text-lg">Proceso 100% Automático:</h3>
+                <div className="space-y-4 text-left">
+                  {[
+                    { num: 1, text: "Realiza tu pago con un clic" },
+                    { num: 2, text: "Envía comprobante por WhatsApp automáticamente" },
+                    { num: 3, text: (<><span className="text-amber-400 font-bold">¡Recibe tus stickers al instante!</span> Generación automática</>) }
+                  ].map((step, i) => (
+                    <div key={i} className="flex items-start gap-4">
+                      <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-full flex items-center justify-center text-black font-bold text-lg flex-shrink-0">{step.num}</div>
+                      <p className="text-gray-300 pt-1">{step.text}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-6 bg-gradient-to-r from-amber-600/20 to-yellow-600/20 border border-amber-500/50 rounded-xl p-4 flex items-center gap-3">
+                  <Icon name="send" size={7} className="text-amber-400" />
+                  <p className="text-amber-400 font-bold text-sm">Compra mínima: 10 stickers. Envía comprobante al WhatsApp</p>
+                </div>
+              </div>
+            </div>
+            <div className="glass rounded-3xl p-10 shadow-2xl border border-amber-600/40">
+              <div className="text-center mb-8">
+                <div className="inline-block p-6 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-full mb-6 animate-float shadow-2xl">
+                  <Icon name="gift" size={16} className="text-black" />
+                </div>
+                <h2 className="text-5xl font-black gold-text mb-4">Stickers Sorpresa</h2>
+                <p className="text-xl font-bold text-white mb-2">¡Uno de estos = PREMIO ESPECIAL!</p>
+                <p className="text-amber-300 font-semibold">10 chances extra de ganar</p>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+                {surpriseNumbers.map(num => (
+                  <div key={num} className="sticker-card bg-gradient-to-br from-amber-500 via-yellow-600 to-amber-700 rounded-3xl p-6 text-center cursor-pointer group">
+                    <p className="text-5xl font-black text-black drop-shadow-2xl">{num}</p>
+                    <div className="mt-3 h-1 bg-black/30 rounded-full group-hover:bg-amber-300 transition-all duration-300"></div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-8 bg-black/40 rounded-2xl p-5 border border-amber-600/40">
+                <p className="text-center font-black gold-text text-lg">
+                  Si tu sticker coincide → ¡PREMIO INMEDIATO!
+                </p>
+              </div>
+            </div>
+            <div className="text-center mt-12 glass rounded-2xl p-6 border border-amber-600/40">
+              <p className="text-gray-400 font-semibold mb-2">Proceso 100% Automático y Seguro</p>
+              <p className="text-xl font-bold gold-text">
+                Harvey Sarmiento • WhatsApp: +57 301 561 9137
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<EventoOnline />);
+  </script>
+</body>
+</html>
