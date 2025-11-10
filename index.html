@@ -4,8 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Evento Online - Harvey Sarmiento</title>
-  <meta name="description" content="Evento Online Exclusivo - Gran Premio: 2 Meses de Acompañamiento + $300,000 COP">
+  <meta name="description" content="Evento Online Exclusivo - Gran Premio: $500.000 COP + 1 Mes de Asesoría Personalizada">
 
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -13,10 +14,10 @@
         extend: {
           fontFamily: { sans: ['Inter', 'system-ui'] },
           animation: {
-            'float': 'float 6s ease-in-out infinite',
+            float: 'float 6s ease-in-out infinite',
             'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
-            'particle': 'particle 12s linear infinite',
-            'shimmer': 'shimmer 2s infinite'
+            particle: 'particle 12s linear infinite',
+            shimmer: 'shimmer 2s infinite'
           },
           keyframes: {
             float: { '0%, 100%': { transform: 'translateY(0) rotate(0deg)' }, '50%': { transform: 'translateY(-15px) rotate(3deg)' } },
@@ -29,22 +30,14 @@
     }
   </script>
 
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://unpkg.com/lucide@0.263.1/dist/umd/lucide.js"></script>
-
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
-    body { margin: 0; padding: 0; background: #000; overflow-x: hidden; }
+    body { margin: 0; padding: 0; background: #000; overflow-x: hidden; font-family: 'Inter', sans-serif; }
     #root { min-height: 100vh; position: relative; }
     .glass { background: rgba(30, 30, 30, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(251, 191, 36, 0.3); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
     .gold-text { background: linear-gradient(135deg, #fbbf24, #f59e0b, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .progress-fill { background: linear-gradient(90deg, #fbbf24, #f59e0b, #d97706); position: relative; overflow: hidden; }
-    .progress-fill::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); animation: shimmer 1.5s infinite; }
-    .sticker-card { transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); transform: perspective(1000px) rotateX(0) rotateY(0); }
-    .sticker-card:hover { transform: perspective(1000px) rotateX(10deg) rotateY(-10deg) scale(1.1); box-shadow: 0 30px 60px rgba(251, 191, 36, 0.4); }
     .particle { position: absolute; width: 3px; height: 3px; background: #fbbf24; border-radius: 50%; pointer-events: none; opacity: 0; left: 50%; transform: translateX(-50%); box-shadow: 0 0 10px #fbbf24; }
     .btn-gold { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #000; font-weight: 800; letter-spacing: 0.5px; position: relative; overflow: hidden; }
     .btn-gold::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: 0.6s; }
@@ -52,283 +45,166 @@
   </style>
 </head>
 <body class="bg-gradient-to-br from-black via-gray-900 to-black text-white">
-  <div id="root"></div>
 
-  <script type="text/babel">
-    const { useState, useEffect, useRef } = React;
-    const { Gift, Zap, TrendingUp, Award, DollarSign, Users, Send, Crown, Lock, Play } = window.lucide;
+  <div id="root">
+    <!-- Partículas -->
+    <div id="particles" class="fixed inset-0 pointer-events-none z-0"></div>
 
-    const Icon = ({ name, size = 6, className = "" }) => {
-      const icons = { gift: Gift, zap: Zap, trendingUp: TrendingUp, award: Award, dollarSign: DollarSign, users: Users, send: Send, crown: Crown, lock: Lock, play: Play };
-      const LucideIcon = icons[name];
-      return LucideIcon ? <LucideIcon className={w-${size} h-${size} ${className}} /> : null;
-    };
+    <!-- Botón Admin -->
+    <button onclick="toggleAdmin()" class="fixed top-6 right-6 z-50 bg-white/10 glass p-3 rounded-full hover:scale-110 transition backdrop-blur-xl border border-amber-600/30 shadow-lg">
+      <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+    </button>
 
-    const Particles = () => {
-      const ref = useRef(null);
-      useEffect(() => {
-        const container = ref.current;
-        if (!container) return;
-        const create = () => {
-          const p = document.createElement('div');
-          p.className = 'particle';
-          p.style.left = ${Math.random() * 100}vw;
-          p.style.animationDuration = ${Math.random() * 8 + 8}s;
-          p.style.animationDelay = ${Math.random() * 5}s;
-          container.appendChild(p);
-          setTimeout(() => p.remove(), 16000);
-        };
-        const interval = setInterval(create, 250);
-        return () => clearInterval(interval);
-      }, []);
-      return <div ref={ref} className="fixed inset-0 pointer-events-none z-0"></div>;
-    };
+    <!-- Contenido principal -->
+    <div class="container mx-auto px-6 py-12 max-w-5xl relative z-10">
+      <div class="text-center mb-12">
+        <div class="inline-block bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 text-black px-10 py-4 rounded-full font-black text-lg mb-6 shadow-xl animate-pulse-glow">
+          EVENTO ONLINE EXCLUSIVO
+        </div>
+        <h1 class="text-6xl md:text-7xl font-black gold-text mb-4 leading-tight">Harvey Sarmiento</h1>
+        <p class="text-2xl font-medium text-amber-200">Resultados Garantizados desde tus primeros 10 días</p>
+      </div>
 
-    function EventoOnline() {
-      const [eventActive, setEventActive] = useState(true);
-      const [progress, setProgress] = useState(5);
-      const [surpriseNumbers, setSurpriseNumbers] = useState([]);
-      const [showAdmin, setShowAdmin] = useState(false);
-      const [isAuthenticated, setIsAuthenticated] = useState(false);
-      const [passwordInput, setPasswordInput] = useState('');
-      const [showPasswordError, setShowPasswordError] = useState(false);
-
-      const ADMIN_PASSWORD = '123510201819';
-      const paymentLink = 'https://checkout.bold.co/payment/LNK_ZNBQIFJLGN';
-      const whatsappNumber = '573015619137';
-      const whatsappMessage = encodeURIComponent('¡Hola Harvey! Ya realicé el pago de los 10 stickers. Te envío el comprobante');
-
-      useEffect(() => {
-        if (eventActive && surpriseNumbers.length === 0) {
-          const nums = new Set();
-          while (nums.size < 10) nums.add(Math.floor(1000 + Math.random() * 9000));
-          setSurpriseNumbers(Array.from(nums).sort((a, b) => a - b));
-        }
-      }, [eventActive]);
-
-      useEffect(() => {
-        if (!eventActive) return;
-        const steps = [5, 15, 28, 42, 58, 72, 81, 89, 93, 97];
-        let i = 0;
-        const interval = setInterval(() => {
-          if (i < steps.length) setProgress(steps[i++]);
-        }, 40000);
-        return () => clearInterval(interval);
-      }, [eventActive]);
-
-      const startNewEvent = () => {
-        setEventActive(true); setProgress(5);
-        const nums = new Set();
-        while (nums.size < 10) nums.add(Math.floor(1000 + Math.random() * 9000));
-        setSurpriseNumbers(Array.from(nums).sort((a, b) => a - b));
-        setShowAdmin(false); setIsAuthenticated(false); setPasswordInput('');
-      };
-
-      const endEvent = () => {
-        setEventActive(false); setSurpriseNumbers([]);
-        setShowAdmin(false); setIsAuthenticated(false); setPasswordInput('');
-      };
-
-      const handlePasswordSubmit = () => {
-        if (passwordInput === ADMIN_PASSWORD) {
-          setIsAuthenticated(true); setShowPasswordError(false); setPasswordInput('');
-        } else {
-          setShowPasswordError(true);
-          setTimeout(() => setShowPasswordError(false), 3000);
-        }
-      };
-
-      const handlePurchase = () => {
-        window.open(paymentLink, '_blank');
-        setTimeout(() => {
-          window.open(https://wa.me/${whatsappNumber}?text=${whatsappMessage}, '_blank');
-        }, 2000);
-      };
-
-      if (!eventActive) {
-        return (
-          <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
-            <Particles />
-            <div className="glass rounded-3xl p-12 max-w-md w-full text-center border border-amber-600/50 shadow-2xl">
-              <div className="w-24 h-24 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-full mx-auto mb-6 flex items-center justify-center animate-pulse-glow">
-                <Icon name="crown" size={12} className="text-black" />
-              </div>
-              <h2 className="text-4xl font-black gold-text mb-4">Evento Finalizado</h2>
-              <p className="text-gray-400 mb-8">Un nuevo sorteo comenzará pronto...</p>
-              {isAuthenticated ? (
-                <button onClick={startNewEvent} className="px-10 py-4 btn-gold rounded-2xl text-lg font-bold shadow-xl hover:shadow-amber-500/50 transform hover:scale-105 transition">
-                  <Icon name="play" className="inline mr-2" /> Iniciar Evento
-                </button>
-              ) : (
-                <button onClick={() => setShowAdmin(true)} className="text-xs text-gray-500 hover:text-amber-400 flex items-center gap-1 mx-auto">
-                  <Icon name="lock" size={4} /> Admin
-                </button>
-              )}
-            </div>
-            {showAdmin && !isAuthenticated && (
-              <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setShowAdmin(false)}>
-                <div className="glass rounded-3xl p-8 max-w-sm w-full" onClick={e => e.stopPropagation()}>
-                  <h3 className="text-2xl font-bold text-center gold-text mb-6">Acceso Admin</h3>
-                  <input type="password" value={passwordInput} onChange={e => setPasswordInput(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && handlePasswordSubmit()}
-                    placeholder="Contraseña" className="w-full px-4 py-3 bg-black/50 border border-amber-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 mb-4"
-                  />
-                  {showPasswordError && <p className="text-red-400 text-sm text-center mb-3 animate-pulse">Contraseña incorrecta</p>}
-                  <div className="flex gap-3">
-                    <button onClick={() => { setShowAdmin(false); setPasswordInput(''); }} className="flex-1 py-3 bg-gray-800 rounded-xl hover:bg-gray-700 transition">Cancelar</button>
-                    <button onClick={handlePasswordSubmit} className="flex-1 py-3 btn-gold rounded-xl font-bold">Entrar</button>
-                  </div>
-                </div>
-              </div>
-            )}
+      <!-- Gran Premio -->
+      <div class="glass rounded-3xl p-10 mb-12 shadow-2xl border-2 border-amber-500/60 bg-gradient-to-br from-amber-900/20 to-yellow-900/20">
+        <div class="text-center">
+          <div class="inline-block p-6 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-full mb-6 animate-float shadow-2xl">
+            <svg class="w-16 h-16 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           </div>
-        );
-      }
+          <h2 class="text-4xl md:text-5xl font-black gold-text mb-6">GRAN PREMIO</h2>
+          <div class="grid md:grid-cols-2 gap-6 text-left bg-black/40 rounded-2xl p-8 border border-amber-600/40">
+            <div class="flex items-center gap-4">
+              <svg class="w-10 h-10 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H9a2 2 0 01-2-2v-1a6 6 0 1112 0v1a2 2 0 01-2 2z"/></svg>
+              <div>
+                <p class="text-xl font-bold text-white">1 Mes de Asesoría</p>
+                <p class="text-amber-300">Personalizada</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <svg class="w-10 h-10 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2m0 0c1.657 0 3 .895 3 2s-1.343 2-3 2m0-4v8"/></svg>
+              <div>
+                <p class="text-3xl font-black gold-text">$500.000 COP</p>
+                <p class="text-amber-300">en Efectivo</p>
+              </div>
+            </div>
+          </div>
+          <p class="mt-6 text-lg font-bold text-amber-300">¡Por solo $12.000 puedes GANAR!</p>
+        </div>
+      </div>
 
-      return (
-        <div className="min-h-screen relative overflow-hidden">
-          <Particles />
-          <button onClick={() => setShowAdmin(true)} className="fixed top-6 right-6 z-50 bg-white/10 glass p-3 rounded-full hover:scale-110 transition backdrop-blur-xl border border-amber-600/30 shadow-lg">
-            <Icon name="lock" size={5} className="text-amber-400" />
-          </button>
-          {showAdmin && isAuthenticated && (
-            <div className="fixed top-20 right-6 z-50 glass p-5 rounded-3xl border border-amber-600/50 shadow-2xl">
-              <p className="text-amber-400 text-xs font-bold mb-3 text-center">Autenticado</p>
-              <button onClick={endEvent} className="w-full py-3 bg-red-600/80 rounded-xl text-sm font-bold hover:bg-red-700 transition">
-                Terminar Evento
-              </button>
+      <!-- Compra -->
+      <div class="glass rounded-3xl p-10 mb-12 shadow-2xl border border-amber-600/40">
+        <div class="text-center mb-8">
+          <p class="text-lg text-gray-400 mb-2">Adquiere tus</p>
+          <p class="text-7xl font-black gold-text mb-3">10 Stickers</p>
+          <p class="text-5xl font-bold text-white">$12.000 COP</p>
+        </div>
+        <button onclick="comprar()" class="w-full py-6 btn-gold text-2xl font-black rounded-2xl shadow-xl transform hover:scale-105 transition-all group">
+          <svg class="inline-block w-10 h-10 mr-3 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13c-2.5-3-6-3-6-3v6h6m0-6c2.5-3 6-3 6-3v6h-6m-6 0h12v8a2 2 0 01-2 2H8a2 2 0 01-2-2v-8z"/></svg>
+          COMPRAR AHORA
+        </button>
+        <div class="mt-8 bg-black/40 rounded-2xl p-6 border border-amber-600/40">
+          <h3 class="text-center font-bold gold-text mb-4 text-lg">Proceso 100% Automático:</h3>
+          <div class="space-y-4 text-left">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-full flex items-center justify-center text-black font-bold text-lg flex-shrink-0">1</div>
+              <p class="text-gray-300 pt-1">Realiza tu pago con un clic</p>
             </div>
-          )}
-          {showAdmin && !isAuthenticated && (
-            <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setShowAdmin(false)}>
-              <div className="glass rounded-3xl p-8 max-w-sm w-full shadow-2xl" onClick={e => e.stopPropagation()}>
-                <h3 className="text-2xl font-bold text-center gold-text mb-6">Panel Admin</h3>
-                <input type="password" value={passwordInput} onChange={e => setPasswordInput(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && handlePasswordSubmit()}
-                  placeholder="Ingresa contraseña" className="w-full px-4 py-3 bg-black/50 border border-amber-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 mb-4" autoFocus
-                />
-                {showPasswordError && <p className="text-red-400 text-sm text-center mb-3 animate-pulse">Contraseña incorrecta</p>}
-                <div className="flex gap-3">
-                  <button onClick={() => { setShowAdmin(false); setPasswordInput(''); }} className="flex-1 py-3 bg-gray-800 rounded-xl hover:bg-gray-700 transition">Cancelar</button>
-                  <button onClick={handlePasswordSubmit} className="flex-1 py-3 btn-gold rounded-xl font-bold">Acceder</button>
-                </div>
-              </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-full flex items-center justify-center text-black font-bold text-lg flex-shrink-0">2</div>
+              <p class="text-gray-300 pt-1">Envía comprobante por WhatsApp automáticamente</p>
             </div>
-          )}
-          <div className="container mx-auto px-6 py-12 max-w-5xl relative z-10">
-            <div className="text-center mb-12">
-              <div className="inline-block bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 text-black px-10 py-4 rounded-full font-black text-lg mb-6 shadow-xl animate-pulse-glow">
-                EVENTO ONLINE EXCLUSIVO
-              </div>
-              <h1 className="text-6xl md:text-7xl font-black gold-text mb-4 leading-tight">
-                Harvey Sarmiento
-              </h1>
-              <p className="text-2xl font-medium text-amber-200">Resultados Garantizados desde tus primeros 10 días</p>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-full flex items-center justify-center text-black font-bold text-lg flex-shrink-0">3</div>
+              <p class="text-gray-300 pt-1"><span class="text-amber-400 font-bold">¡Recibe tus stickers al instante!</span> Generación automática</p>
             </div>
-            <div className="glass rounded-3xl p-8 mb-10 shadow-2xl border border-amber-600/40">
-              <div className="flex justify-between items-center mb-4">
-                <span className="flex items-center gap-3 text-lg font-bold">
-                  <Icon name="trendingUp" className="text-amber-400 animate-pulse" /> Stickers Vendidos
-                </span>
-                <span className="text-3xl font-black gold-text">{progress}%</span>
-              </div>
-              <div className="w-full bg-gray-800 rounded-full h-10 overflow-hidden shadow-inner border border-amber-600/30">
-                <div className="h-full progress-fill rounded-full flex items-center justify-end pr-4" style={{ width: ${progress}% }}>
-                  <Icon name="zap" size={6} className="text-black drop-shadow-lg" />
-                </div>
-              </div>
-              <p className="text-center mt-4 text-amber-400 font-bold animate-pulse text-lg">¡Últimas unidades! No pierdas tu chance</p>
-            </div>
-            <div className="glass rounded-3xl p-10 mb-12 shadow-2xl border-2 border-amber-500/60 bg-gradient-to-br from-amber-900/20 to-yellow-900/20">
-              <div className="text-center">
-                <div className="inline-block p-6 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-full mb-6 animate-float shadow-2xl">
-                  <Icon name="crown" size={16} className="text-black" />
-                </div>
-                <h2 className="text-4xl md:text-5xl font-black gold-text mb-6">GRAN PREMIO</h2>
-                <div className="grid md:grid-cols-2 gap-6 text-left bg-black/40 rounded-2xl p-8 border border-amber-600/40">
-                  <div className="flex items-center gap-4">
-                    <Icon name="users" size={10} className="text-amber-400" />
-                    <div>
-                      <p className="text-xl font-bold text-white">2 Meses de Acompañamiento</p>
-                      <p className="text-amber-300">Personalizado</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <Icon name="dollarSign" size={10} className="text-amber-400" />
-                    <div>
-                      <p className="text-3xl font-black gold-text">$300,000 COP</p>
-                      <p className="text-amber-300">en Efectivo</p>
-                    </div>
-                  </div>
-                </div>
-                <p className="mt-6 text-lg font-bold text-amber-300">¡Por solo $12.000 puedes GANAR!</p>
-              </div>
-            </div>
-            <div className="glass rounded-3xl p-10 mb-12 shadow-2xl border border-amber-600/40">
-              <div className="text-center mb-8">
-                <p className="text-lg text-gray-400 mb-2">Adquiere tus</p>
-                <p className="text-7xl font-black gold-text mb-3">10 Stickers</p>
-                <p className="text-5xl font-bold text-white">$12,000 COP</p>
-              </div>
-              <button onClick={handlePurchase} className="w-full py-6 btn-gold text-2xl font-black rounded-2xl shadow-xl transform hover:scale-105 transition-all group">
-                <Gift className="inline-block w-10 h-10 mr-3 group-hover:animate-bounce" /> COMPRAR AHORA
-              </button>
-              <div className="mt-8 bg-black/40 rounded-2xl p-6 border border-amber-600/40">
-                <h3 className="text-center font-bold gold-text mb-4 text-lg">Proceso 100% Automático:</h3>
-                <div className="space-y-4 text-left">
-                  {[
-                    { num: 1, text: "Realiza tu pago con un clic" },
-                    { num: 2, text: "Envía comprobante por WhatsApp automáticamente" },
-                    { num: 3, text: (<><span className="text-amber-400 font-bold">¡Recibe tus stickers al instante!</span> Generación automática</>) }
-                  ].map((step, i) => (
-                    <div key={i} className="flex items-start gap-4">
-                      <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-full flex items-center justify-center text-black font-bold text-lg flex-shrink-0">{step.num}</div>
-                      <p className="text-gray-300 pt-1">{step.text}</p>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-6 bg-gradient-to-r from-amber-600/20 to-yellow-600/20 border border-amber-500/50 rounded-xl p-4 flex items-center gap-3">
-                  <Icon name="send" size={7} className="text-amber-400" />
-                  <p className="text-amber-400 font-bold text-sm">Compra mínima: 10 stickers. Envía comprobante al WhatsApp</p>
-                </div>
-              </div>
-            </div>
-            <div className="glass rounded-3xl p-10 shadow-2xl border border-amber-600/40">
-              <div className="text-center mb-8">
-                <div className="inline-block p-6 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-full mb-6 animate-float shadow-2xl">
-                  <Icon name="gift" size={16} className="text-black" />
-                </div>
-                <h2 className="text-5xl font-black gold-text mb-4">Stickers Sorpresa</h2>
-                <p className="text-xl font-bold text-white mb-2">¡Uno de estos = PREMIO ESPECIAL!</p>
-                <p className="text-amber-300 font-semibold">10 chances extra de ganar</p>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-                {surpriseNumbers.map(num => (
-                  <div key={num} className="sticker-card bg-gradient-to-br from-amber-500 via-yellow-600 to-amber-700 rounded-3xl p-6 text-center cursor-pointer group">
-                    <p className="text-5xl font-black text-black drop-shadow-2xl">{num}</p>
-                    <div className="mt-3 h-1 bg-black/30 rounded-full group-hover:bg-amber-300 transition-all duration-300"></div>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-8 bg-black/40 rounded-2xl p-5 border border-amber-600/40">
-                <p className="text-center font-black gold-text text-lg">
-                  Si tu sticker coincide → ¡PREMIO INMEDIATO!
-                </p>
-              </div>
-            </div>
-            <div className="text-center mt-12 glass rounded-2xl p-6 border border-amber-600/40">
-              <p className="text-gray-400 font-semibold mb-2">Proceso 100% Automático y Seguro</p>
-              <p className="text-xl font-bold gold-text">
-                Harvey Sarmiento • WhatsApp: +57 301 561 9137
-              </p>
-            </div>
+          </div>
+          <div class="mt-6 bg-gradient-to-r from-amber-600/20 to-yellow-600/20 border border-amber-500/50 rounded-xl p-4 flex items-center gap-3">
+            <svg class="w-7 h-7 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+            <p class="text-amber-400 font-bold text-sm">Compra mínima: 10 stickers. Envía comprobante al WhatsApp</p>
           </div>
         </div>
-      );
+      </div>
+
+      <!-- Footer -->
+      <div class="text-center mt-12 glass rounded-2xl p-6 border border-amber-600/40">
+        <p class="text-gray-400 font-semibold mb-2">Proceso 100% Automático y Seguro</p>
+        <p class="text-xl font-bold gold-text">
+          Harvey Sarmiento • WhatsApp: +57 301 561 9137
+        </p>
+      </div>
+    </div>
+
+    <!-- Panel Admin -->
+    <div id="adminPanel" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 hidden">
+      <div class="glass rounded-3xl p-8 max-w-sm w-full shadow-2xl">
+        <h3 class="text-2xl font-bold text-center gold-text mb-6">Panel Admin</h3>
+        <input id="adminPass" type="password" placeholder="Contraseña" class="w-full px-4 py-3 bg-black/50 border border-amber-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 mb-4">
+        <p id="errorMsg" class="text-red-400 text-sm text-center mb-3 hidden">Contraseña incorrecta</p>
+        <div class="flex gap-3">
+          <button onclick="cerrarAdmin()" class="flex-1 py-3 bg-gray-800 rounded-xl hover:bg-gray-700 transition">Cancelar</button>
+          <button onclick="validarAdmin()" class="flex-1 py-3 btn-gold rounded-xl font-bold">Acceder</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ADMIN_PASS = '123510201819';
+
+    function comprar() {
+      window.open('https://checkout.bold.co/payment/LNK_ZNBQIFJLGN', '_blank');
+      setTimeout(() => {
+        window.open('https://wa.me/573015619137?text=' + encodeURIComponent('¡Hola Harvey! Ya realicé el pago de los 10 stickers. Te envío el comprobante'), '_blank');
+      }, 2000);
     }
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<EventoOnline />);
+    function toggleAdmin() {
+      document.getElementById('adminPanel').classList.toggle('hidden');
+    }
+    function cerrarAdmin() {
+      document.getElementById('adminPanel').classList.add('hidden');
+      document.getElementById('adminPass').value = '';
+    }
+    function validarAdmin() {
+      if (document.getElementById('adminPass').value === ADMIN_PASS) {
+        alert('Evento finalizado por el admin.');
+        document.getElementById('root').innerHTML = `
+          <div class="min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
+            <div id="particles" class="fixed inset-0 pointer-events-none z-0"></div>
+            <div class="glass rounded-3xl p-12 max-w-md w-full text-center border border-amber-600/50 shadow-2xl">
+              <div class="w-24 h-24 bg-gradient-to-br from-amber-400 to-yellow-600 rounded-full mx-auto mb-6 flex items-center justify-center animate-pulse-glow">
+                <svg class="w-12 h-12 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <h2 class="text-4xl font-black gold-text mb-4">Evento Finalizado</h2>
+              <p class="text-gray-400 mb-8">Un nuevo sorteo comenzará pronto...</p>
+            </div>
+          </div>
+        `;
+        iniciarParticulas();
+      } else {
+        document.getElementById('errorMsg').classList.remove('hidden');
+        setTimeout(() => document.getElementById('error')?.classList.add('hidden'), 3000);
+      }
+    }
+
+    function iniciarParticulas() {
+      const container = document.getElementById('particles');
+      const create = () => {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.animationDuration = (Math.random() * 8 + 8) + 's';
+        p.style.animationDelay = Math.random() * 5 + 's';
+        container.appendChild(p);
+        setTimeout(() => p.remove(), 16000);
+      };
+      setInterval(create, 250);
+    }
+
+    window.onload = () => {
+      iniciarParticulas();
+    };
   </script>
 </body>
 </html>
